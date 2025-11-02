@@ -1,4 +1,4 @@
-package com.sara
+package health.sara.app
 
 import android.app.Application
 import com.facebook.react.PackageList

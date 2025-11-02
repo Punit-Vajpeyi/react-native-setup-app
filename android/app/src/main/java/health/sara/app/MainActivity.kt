@@ -1,4 +1,4 @@
-package com.sara
+package health.sara.app
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

@@ -1,0 +1,198 @@
+# Fastfile for Sara
+
+default_platform(:ios)
+
+platform :ios do
+  # Helper method to generate release notes from git commits
+  # Parameters: environment - "dev", "stage", or "prod"
+  def generate_release_notes(environment)
+    begin
+      # Get all tags sorted by creation date
+      all_tags = sh("git tag --sort=-creatordate 2>/dev/null || echo ''").strip.split("\n")
+
+      # Filter tags based on environment
+      latest_tag = ""
+      all_tags.each do |tag|
+        next if tag.empty?
+
+        if environment == "dev" && tag.include?("-dev")
+          latest_tag = tag
+          break
+        elsif environment == "stage" && tag.include?("-stage")
+          latest_tag = tag
+          break
+        elsif environment == "prod" && !tag.include?("-dev") && !tag.include?("-stage")
+          latest_tag = tag
+          break
+        end
+      end
+
+      # Determine commit range
+      if latest_tag.empty?
+        commit_range = "HEAD"
+        tag_info = "All commits"
+        UI.message("No tags found for #{environment}. Using all commits.")
+      else
+        commit_range = "#{latest_tag}..HEAD"
+        tag_info = "Changes since #{latest_tag}"
+        UI.message("Latest tag for #{environment}: #{latest_tag}")
+      end
+
+      # Count commits
+      commit_count = sh("git rev-list --count #{commit_range} 2>/dev/null || echo '0'").strip.to_i
+
+      if commit_count == 0
+        UI.message("No new commits since last tag.")
+        return "No new changes since last release."
+      end
+
+      UI.message("Found #{commit_count} commits since last tag")
+
+      # Get version from package.json
+      package_json_path = File.join(Dir.pwd, "..", "..", "package.json")
+      version = "Unknown"
+      if File.exist?(package_json_path)
+        package_json = File.read(package_json_path)
+        version_match = package_json.match(/"version":\s*"([^"]+)"/)
+        version = version_match[1] if version_match
+      end
+
+      # Get commit messages
+      commits = sh("git log #{commit_range} --pretty=format:'- %s' --reverse").strip
+
+      # Generate release notes
+      release_notes = <<~NOTES
+        Version: #{version}
+        Date: #{Time.now.strftime('%Y-%m-%d %H:%M')}
+        #{tag_info}
+
+        What's New:
+        #{commits}
+
+        Total commits: #{commit_count}
+
+        Generated with Sara Release Notes Generator
+      NOTES
+
+      # Write to file
+      release_notes_path = File.join(Dir.pwd, "release-notes.txt")
+      File.write(release_notes_path, release_notes)
+
+      UI.success("✅ Release notes generated successfully!")
+      return release_notes
+
+    rescue => ex
+      UI.warning("⚠️  Could not generate release notes automatically: #{ex.message}")
+      # Fallback to default message
+      return "New build uploaded via Fastlane\n\nGenerated: #{Time.now.strftime('%Y-%m-%d %H:%M')}"
+    end
+  end
+
+  desc "Build and distribute Dev version to Firebase App Distribution"
+  lane :dev do
+    # TODO: Replace with your actual Firebase App ID for dev
+    firebase_app_id_dev = "1:368956526793:ios:3abacbefefab06bfaf7d18"
+
+    # Increment build number
+    increment_build_number(xcodeproj: "Sara.xcodeproj")
+
+    # Increment patch version (1.0.0 -> 1.0.1)
+    increment_version_number(
+      xcodeproj: "Sara.xcodeproj",
+      bump_type: "patch"
+    )
+
+    # Generate release notes
+    generate_release_notes("dev")
+
+    build_app(
+      workspace: "Sara.xcworkspace",
+      scheme: "SaraDev",
+      export_method: "development",
+      output_directory: "./build",
+      output_name: "Sara-Dev.ipa",
+      export_options: {
+        compileBitcode: false
+      }
+    )
+
+    firebase_app_distribution(
+      app: firebase_app_id_dev,
+      ipa_path: "./build/Sara-Dev.ipa",
+      groups: "wemotive",
+      release_notes_file: "release-notes.txt"
+    )
+  end
+
+  desc "Build and distribute Stage version to Firebase App Distribution"
+  lane :stage do
+    # TODO: Replace with your actual Firebase App ID for stage
+    firebase_app_id_stage = "1:368956526793:ios:5760568fa7a51bbcaf7d18"
+
+    # Increment build number
+    increment_build_number(xcodeproj: "Sara.xcodeproj")
+
+    # Increment patch version (1.0.0 -> 1.0.1)
+    increment_version_number(
+      xcodeproj: "Sara.xcodeproj",
+      bump_type: "patch"
+    )
+
+    # Generate release notes
+    generate_release_notes("stage")
+
+    build_app(
+      workspace: "Sara.xcworkspace",
+      scheme: "SaraStage",
+      export_method: "development",
+      output_directory: "./build",
+      output_name: "Sara-Stage.ipa",
+      export_options: {
+        compileBitcode: false
+      }
+    )
+
+    firebase_app_distribution(
+      app: firebase_app_id_stage,
+      ipa_path: "./build/Sara-Stage.ipa",
+      groups: "wemotive",
+      release_notes_file: "release-notes.txt"
+    )
+  end
+
+  desc "Build and distribute Prod version to Firebase App Distribution"
+  lane :prod do
+    # TODO: Replace with your actual Firebase App ID for prod
+    firebase_app_id_prod = "1:368956526793:ios:1901b22d67210283af7d18"
+
+    # Increment build number
+    increment_build_number(xcodeproj: "Sara.xcodeproj")
+
+    # Increment patch version (1.0.0 -> 1.0.1)
+    increment_version_number(
+      xcodeproj: "Sara.xcodeproj",
+      bump_type: "patch"
+    )
+
+    # Generate release notes
+    generate_release_notes("prod")
+
+    build_app(
+      workspace: "Sara.xcworkspace",
+      scheme: "Sara",
+      export_method: "development",
+      output_directory: "./build",
+      output_name: "Sara-Prod.ipa",
+      export_options: {
+        compileBitcode: false
+      }
+    )
+
+    firebase_app_distribution(
+      app: firebase_app_id_prod,
+      ipa_path: "./build/Sara-Prod.ipa",
+      groups: "wemotive",
+      release_notes_file: "release-notes.txt"
+    )
+  end
+end

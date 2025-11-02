@@ -1,0 +1,50 @@
+/**
+ * Copy Google Services JSON file based on build variant
+ *
+ * This script copies the appropriate google-services.json file
+ * from src/{flavor}/ to the app root before the build.
+ *
+ * File structure:
+ * - android/app/src/dev/google-services.json
+ * - android/app/src/stage/google-services.json
+ * - android/app/src/prod/google-services.json
+ */
+
+task selectGoogleServicesJson {
+    doLast {
+        def flavor = ""
+
+        gradle.startParameter.taskNames.each { task ->
+            if (task.toLowerCase().contains("dev")) {
+                flavor = "dev"
+            } else if (task.toLowerCase().contains("stage")) {
+                flavor = "stage"
+            } else if (task.toLowerCase().contains("prod")) {
+                flavor = "prod"
+            }
+        }
+
+        if (flavor.isEmpty()) {
+            println "⚠️  No flavor detected, using dev as default"
+            flavor = "dev"
+        }
+
+        def sourceFile = file("src/${flavor}/google-services.json")
+        def targetFile = file("google-services.json")
+
+        if (sourceFile.exists()) {
+            println "✅ Copying google-services.json from ${flavor} flavor"
+            targetFile.text = sourceFile.text
+        } else {
+            println "⚠️  Warning: google-services.json not found for ${flavor} flavor"
+            println "Expected location: ${sourceFile.absolutePath}"
+        }
+    }
+}
+
+// Run before processing google services
+tasks.whenTaskAdded { task ->
+    if (task.name.startsWith('process') && task.name.endsWith('GoogleServices')) {
+        task.dependsOn selectGoogleServicesJson
+    }
+}

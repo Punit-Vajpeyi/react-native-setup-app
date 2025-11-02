@@ -3,16 +3,30 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "android:dev": "ENVFILE=.env.development npx react-native run-android --mode=devDebug --appIdSuffix=dev",
+    "android:stage": "ENVFILE=.env.staging npx react-native run-android --mode=stageDebug --appIdSuffix=stage",
+    "android:prod": "ENVFILE=.env.production npx react-native run-android --mode=prodDebug",
+    "android:dev:release": "ENVFILE=.env.development cd android && ./gradlew assembleDevRelease",
+    "android:stage:release": "ENVFILE=.env.staging cd android && ./gradlew assembleStageRelease",
+    "android:prod:release": "ENVFILE=.env.production cd android && ./gradlew assembleProdRelease",
+    "android:dev:distribute": "ENVFILE=.env.development cd android && ./gradlew incrementVersion assembleDevRelease appDistributionUploadDevRelease",
+    "android:stage:distribute": "ENVFILE=.env.staging cd android && ./gradlew incrementVersion assembleStageRelease appDistributionUploadStageRelease",
+    "android:prod:distribute": "ENVFILE=.env.production cd android && ./gradlew incrementVersion assembleProdRelease appDistributionUploadProdRelease",
+    "ios:dev": "ENVFILE=.env.development npx react-native run-ios --scheme='SaraDev'",
+    "ios:stage": "ENVFILE=.env.staging npx react-native run-ios --scheme='SaraStage'",
+    "ios:prod": "ENVFILE=.env.production npx react-native run-ios --scheme='Sara'",
+    "ios:dev:distribute": "cd ios && bundle exec fastlane dev",
+    "ios:stage:distribute": "cd ios && bundle exec fastlane stage",
+    "ios:prod:distribute": "cd ios && bundle exec fastlane prod",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest"
   },
   "dependencies": {
+    "@react-native/new-app-screen": "0.82.1",
     "react": "19.1.1",
     "react-native": "0.82.1",
-    "@react-native/new-app-screen": "0.82.1",
+    "react-native-config": "^1.5.9",
     "react-native-safe-area-context": "^5.5.2"
   },
   "devDependencies": {

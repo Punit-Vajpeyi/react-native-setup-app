@@ -1,97 +1,418 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Sara - React Native Multi-Environment App
 
-# Getting Started
+A React Native application with support for multiple environments (Development, Staging, Production) on both iOS and Android platforms.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Table of Contents
 
-## Step 1: Start Metro
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Environment Configuration](#environment-configuration)
+- [Running the App](#running-the-app)
+- [Building & Distribution](#building--distribution)
+- [Version Management](#version-management)
+- [Release Notes](#release-notes)
+- [Troubleshooting](#troubleshooting)
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+---
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+## Prerequisites
 
-```sh
-# Using npm
-npm start
+Before you begin, ensure you have the following installed:
 
-# OR using Yarn
+### General Requirements
+- **Node.js**: >= 20.x
+- **Yarn**: Package manager (preferred over npm)
+- **Git**: Version control
+
+### iOS Development
+- **macOS**: Required for iOS development
+- **Xcode**: 14.0 or later
+- **CocoaPods**: iOS dependency manager
+- **Ruby**: 2.6 or later (for Fastlane)
+- **Bundler**: Ruby dependency manager
+  ```bash
+  gem install bundler
+  ```
+- **Fastlane**: iOS automation tool (installed via Bundler)
+
+### Android Development
+- **Android Studio**: Latest stable version
+- **Java Development Kit (JDK)**: 17 or later
+- **Android SDK**: API Level 33 or later
+- **Android NDK**: Version specified in `android/gradle.properties`
+
+### Firebase Setup
+- Firebase project with three apps configured:
+  - iOS Dev app
+  - iOS Stage app
+  - iOS Prod app
+  - Android Dev app (.dev)
+  - Android Stage app (.stage)
+  - Android Prod app
+- Firebase App Distribution configured with "wemotive" tester group
+
+---
+
+## Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd Sara
+   ```
+
+2. **Install Node dependencies**
+   ```bash
+   yarn install
+   ```
+
+3. **Install iOS dependencies**
+   ```bash
+   cd ios
+   bundle install
+   bundle exec pod install
+   cd ..
+   ```
+
+4. **Configure Firebase**
+   - Place Firebase configuration files in the appropriate directories:
+     - **iOS**: `ios/Firebase/GoogleService-Info-dev.plist`, `GoogleService-Info-stage.plist`, `GoogleService-Info-prod.plist`
+     - **Android**: `android/app/src/dev/google-services.json`, `android/app/src/stage/google-services.json`, `android/app/src/prod/google-services.json`
+
+---
+
+## Environment Configuration
+
+The app supports three environments with separate configurations:
+
+### Environment Files
+
+Create the following environment files in the root directory:
+
+**`.env.development`**
+```env
+ENV=dev
+APP_NAME=Sara Dev
+API_URL=https://api-dev.sara.health
+DEBUG_MODE=true
+```
+
+**`.env.staging`**
+```env
+ENV=stage
+APP_NAME=Sara Stage
+API_URL=https://api-staging.sara.health
+DEBUG_MODE=false
+```
+
+**`.env.production`**
+```env
+ENV=prod
+APP_NAME=Sara
+API_URL=https://api.sara.health
+DEBUG_MODE=false
+```
+
+### Bundle Identifiers
+
+- **Production**: `health.sara.app`
+- **Development**: `health.sara.app.dev`
+- **Staging**: `health.sara.app.stage`
+
+All three apps can be installed simultaneously on the same device.
+
+---
+
+## Running the App
+
+### Development Mode
+
+**Android**
+```bash
+yarn android:dev      # Development environment
+yarn android:stage    # Staging environment
+yarn android:prod     # Production environment
+```
+
+**iOS**
+```bash
+yarn ios:dev         # Development environment
+yarn ios:stage       # Staging environment
+yarn ios:prod        # Production environment
+```
+
+### Starting Metro Server
+```bash
 yarn start
 ```
 
-## Step 2: Build and run your app
+---
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+## Building & Distribution
 
-### Android
+### Prerequisites for Distribution
 
-```sh
-# Using npm
-npm run android
+1. **Firebase CLI** (for Android)
+   ```bash
+   npm install -g firebase-tools
+   firebase login
+   ```
 
-# OR using Yarn
-yarn android
+2. **Firebase App Distribution** configured for both platforms
+
+3. **App Signing** (Production builds)
+   - iOS: Configure signing certificates in Xcode
+   - Android: Configure `release.keystore` for production builds
+
+### Distribution Commands
+
+The distribution process automatically:
+- Increments the version number (1.0.0 → 1.0.1 → 1.0.2)
+- Generates release notes from git commits
+- Builds the release binary
+- Uploads to Firebase App Distribution to "wemotive" tester group
+
+**Android**
+```bash
+yarn android:dev:distribute      # Build & distribute Dev to Firebase
+yarn android:stage:distribute    # Build & distribute Stage to Firebase
+yarn android:prod:distribute     # Build & distribute Prod to Firebase
 ```
 
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+**iOS**
+```bash
+yarn ios:dev:distribute         # Build & distribute Dev to Firebase
+yarn ios:stage:distribute       # Build & distribute Stage to Firebase
+yarn ios:prod:distribute        # Build & distribute Prod to Firebase
 ```
 
-Then, and every time you update your native dependencies, run:
+### Manual Build (without distribution)
 
-```sh
+**Android**
+```bash
+yarn android:dev:release        # Build Dev release APK
+yarn android:stage:release      # Build Stage release APK
+yarn android:prod:release       # Build Prod release APK
+```
+
+**iOS**
+```bash
+cd ios
+bundle exec fastlane dev        # Build Dev IPA
+bundle exec fastlane stage      # Build Stage IPA
+bundle exec fastlane prod       # Build Prod IPA
+```
+
+---
+
+## Version Management
+
+### Automatic Version Incrementing
+
+Version numbers are automatically incremented on each distribution build:
+
+- **Format**: `MAJOR.MINOR.PATCH` (e.g., 1.0.0, 1.0.1, 1.0.2)
+- **Increment Type**: Patch version (third number)
+- **Scope**: Each distribution command increments the version
+
+### Version Files
+
+**iOS**: Version managed by Fastlane in Xcode project settings
+
+**Android**: Version managed in `android/app/version.properties`
+```properties
+VERSION_CODE=1
+VERSION_NAME=1.0.0
+```
+
+### Manual Version Update
+
+**Android**: Edit `android/app/version.properties`
+
+**iOS**: Use Xcode or Fastlane commands:
+```bash
+bundle exec fastlane run increment_version_number bump_type:patch
+```
+
+---
+
+## Release Notes
+
+Release notes are automatically generated from git commit history.
+
+### How Release Notes are Fetched
+
+1. **Git Tags**: The system looks for git tags to determine the last release
+2. **Environment-Specific Tags**:
+   - Dev: Tags containing `-dev` (e.g., `v1.0.0-dev`)
+   - Stage: Tags containing `-stage` (e.g., `v1.0.0-stage`)
+   - Prod: Tags without suffixes (e.g., `v1.0.0`)
+3. **Commit Range**: Collects all commits since the last relevant tag
+4. **Format**: Generates a formatted release notes file with:
+   - Version number
+   - Date and time
+   - List of commit messages
+   - Total commit count
+
+### Tag Naming Convention
+
+To ensure proper release note generation, follow this tagging convention:
+
+```bash
+# Development releases
+git tag v1.0.0-dev
+git tag v1.0.1-dev
+
+# Staging releases
+git tag v1.0.0-stage
+git tag v1.0.1-stage
+
+# Production releases
+git tag v1.0.0
+git tag v1.0.1
+
+# Push tags
+git push origin --tags
+```
+
+### Release Notes Files
+
+- **Android**: Generated at `android/app/release-notes.txt`
+- **iOS**: Generated at `ios/release-notes.txt`
+
+### Example Release Notes
+
+```
+Version: 1.0.1
+Date: 2025-11-02 10:30
+Changes since v1.0.0-dev
+
+What's New:
+- Add user authentication feature
+- Fix login screen layout issues
+- Update API endpoints for production
+- Improve error handling in socket connections
+
+Total commits: 4
+
+Generated with Sara Release Notes Generator
+```
+
+---
+
+## Troubleshooting
+
+### iOS Build Issues
+
+**CocoaPods errors**
+```bash
+cd ios
+bundle exec pod deintegrate
 bundle exec pod install
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+**Xcode scheme not found**
+- Open `ios/Sara.xcworkspace` in Xcode
+- Ensure schemes are visible: Product → Scheme → Manage Schemes
+- Verify "Sara", "SaraDev", and "SaraStage" are checked as shared
 
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
+**Clean build**
+```bash
+cd ios
+xcodebuild clean -workspace Sara.xcworkspace -scheme Sara
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+### Android Build Issues
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+**Gradle build fails**
+```bash
+cd android
+./gradlew clean
+./gradlew assembleDebug
+```
 
-## Step 3: Modify your app
+**Firebase configuration missing**
+- Verify `google-services.json` files exist in:
+  - `android/app/src/dev/`
+  - `android/app/src/stage/`
+  - `android/app/src/prod/`
 
-Now that you have successfully run the app, let's make changes!
+**Version increment fails**
+- Check `android/app/version.properties` exists and has correct format
+- Ensure file has write permissions
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+### General Issues
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+**Metro bundler cache**
+```bash
+yarn start --reset-cache
+```
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+**Node modules**
+```bash
+rm -rf node_modules
+yarn install
+```
 
-## Congratulations! :tada:
+**Clear all caches**
+```bash
+# Clear watchman
+watchman watch-del-all
 
-You've successfully run and modified your React Native App. :partying_face:
+# Clear metro
+rm -rf $TMPDIR/metro-*
 
-### Now what?
+# Clear haste
+rm -rf $TMPDIR/haste-*
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+# Rebuild
+yarn install
+cd ios && bundle exec pod install && cd ..
+```
 
-# Troubleshooting
+---
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+## Project Structure
 
-# Learn More
+```
+Sara/
+├── android/                    # Android native code
+│   ├── app/
+│   │   ├── src/
+│   │   │   ├── dev/           # Dev flavor resources
+│   │   │   ├── stage/         # Stage flavor resources
+│   │   │   └── prod/          # Prod flavor resources
+│   │   ├── build.gradle       # App-level Gradle config
+│   │   ├── version.gradle     # Version management script
+│   │   └── version.properties # Current version
+├── ios/                       # iOS native code
+│   ├── Sara/                  # Main app files
+│   │   ├── Info.plist        # Prod configuration
+│   │   ├── Info-Dev.plist    # Dev configuration
+│   │   └── Info-Stage.plist  # Stage configuration
+│   ├── Firebase/             # Firebase config files
+│   ├── fastlane/            # Fastlane automation
+│   │   └── Fastfile         # Build & distribution lanes
+│   └── Podfile              # CocoaPods dependencies
+├── .env.development         # Dev environment variables
+├── .env.staging            # Stage environment variables
+├── .env.production         # Prod environment variables
+└── package.json            # Node dependencies & scripts
+```
 
-To learn more about React Native, take a look at the following resources:
+---
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## Learn More
+
+- [React Native Documentation](https://reactnative.dev)
+- [React Native Environment Setup](https://reactnative.dev/docs/environment-setup)
+- [Fastlane Documentation](https://docs.fastlane.tools)
+- [Firebase App Distribution](https://firebase.google.com/docs/app-distribution)
+- [Android Build Flavors](https://developer.android.com/build/build-variants)
+- [Xcode Schemes](https://developer.apple.com/documentation/xcode/managing-schemes)
+
+---
+
+## Support
+
+For issues and questions, please contact the development team or create an issue in the project repository.

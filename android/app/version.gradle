@@ -1,0 +1,58 @@
+// Auto-increment version script
+// This script manages version increments for Android builds
+
+def versionPropsFile = file('version.properties')
+
+def getVersionCode = {
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        return versionProps['VERSION_CODE'].toInteger()
+    } else {
+        return 1
+    }
+}
+
+def getVersionName = {
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        return versionProps['VERSION_NAME']
+    } else {
+        return "1.0.0"
+    }
+}
+
+def incrementPatchVersion = { currentVersion ->
+    def parts = currentVersion.split('\\.')
+    def major = parts[0].toInteger()
+    def minor = parts[1].toInteger()
+    def patch = parts[2].toInteger()
+
+    patch += 1
+
+    return "${major}.${minor}.${patch}"
+}
+
+// Task to increment version
+task incrementVersion {
+    doLast {
+        def currentVersionCode = getVersionCode()
+        def currentVersionName = getVersionName()
+
+        def newVersionCode = currentVersionCode + 1
+        def newVersionName = incrementPatchVersion(currentVersionName)
+
+        def Properties versionProps = new Properties()
+        versionProps['VERSION_CODE'] = newVersionCode.toString()
+        versionProps['VERSION_NAME'] = newVersionName
+        versionProps.store(versionPropsFile.newWriter(), null)
+
+        println "✅ Version incremented: ${currentVersionName} (${currentVersionCode}) -> ${newVersionName} (${newVersionCode})"
+    }
+}
+
+ext {
+    autoVersionCode = getVersionCode()
+    autoVersionName = getVersionName()
+}

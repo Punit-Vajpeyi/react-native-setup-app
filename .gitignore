@@ -73,3 +73,28 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Environment variables
+.env.development
+.env.staging
+.env.production
+.env
+
+# Firebase configuration files (sensitive)
+ios/Firebase/GoogleService-Info-dev.plist
+ios/Firebase/GoogleService-Info-stage.plist
+ios/Firebase/GoogleService-Info-prod.plist
+android/app/src/dev/google-services.json
+android/app/src/stage/google-services.json
+android/app/src/prod/google-services.json
+
+# iOS build artifacts
+ios/build/
+ios/*.ipa
+ios/release-notes.txt
+
+# Android build artifacts
+android/app/release-notes.txt
+
+# Version tracking (auto-generated)
+android/app/version.properties

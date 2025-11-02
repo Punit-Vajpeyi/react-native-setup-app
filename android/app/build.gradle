@@ -2,6 +2,23 @@ apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
+// Configure environment files for react-native-config
+project.ext.envConfigFiles = [
+    devdebug: ".env.development",
+    devrelease: ".env.development",
+    stagedebug: ".env.staging",
+    stagerelease: ".env.staging",
+    proddebug: ".env.production",
+    prodrelease: ".env.production"
+]
+
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+apply from: "copy-google-services.gradle"
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.appdistribution'
+apply from: "generate-release-notes.gradle"
+apply from: "version.gradle"
+
 /**
  * This is the configuration block to customize your React Native Android app.
  * By default you don't need to apply any configuration, just uncomment the lines you need.
@@ -77,13 +94,36 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
+    flavorDimensions "environment"
+    productFlavors {
+        dev {
+            dimension "environment"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+            resValue "string", "app_name", "Sara Dev"
+            resValue "string", "build_config_package", "health.sara.app.dev"
+        }
+        stage {
+            dimension "environment"
+            applicationIdSuffix ".stage"
+            versionNameSuffix "-stage"
+            resValue "string", "app_name", "Sara Stage"
+            resValue "string", "build_config_package", "health.sara.app.stage"
+        }
+        prod {
+            dimension "environment"
+            resValue "string", "app_name", "Sara"
+            resValue "string", "build_config_package", "health.sara.app"
+        }
+    }
+
     namespace "health.sara.app"
     defaultConfig {
         applicationId "health.sara.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode autoVersionCode
+        versionName autoVersionName
     }
     signingConfigs {
         debug {
@@ -96,6 +136,11 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            matchingFallbacks = ['debug', 'release']
+            firebaseAppDistribution {
+                releaseNotesFile = "app/release-notes.txt"
+                groups = "wemotive"
+            }
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
@@ -103,6 +148,21 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            firebaseAppDistribution {
+                releaseNotesFile = "app/release-notes.txt"
+                groups = "wemotive"
+            }
+        }
+    }
+
+    // Generate custom APK filenames
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def flavorName = variant.flavorName ?: "noFlavor"
+            def buildType = variant.buildType.name
+            def versionName = defaultConfig.versionName
+            def fileName = "${versionName}-${flavorName}-${buildType}.apk"
+            outputFileName = fileName
         }
     }
 }
@@ -110,6 +170,12 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+
+    // Manual linking for react-native-config to avoid codegen issues
+    implementation project(':react-native-config')
+
+    // Firebase
+    implementation(platform('com.google.firebase:firebase-bom:32.7.0'))
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

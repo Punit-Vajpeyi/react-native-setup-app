@@ -1,0 +1,140 @@
+// Gradle task to generate release notes before Firebase App Distribution upload
+
+task generateReleaseNotes {
+    doLast {
+        def releaseNotesFile = file("release-notes.txt")
+
+        println "Generating release notes..."
+
+        try {
+            // Determine environment based on the variant
+            def environment = ""
+            gradle.startParameter.taskNames.each { task ->
+                if (task.toLowerCase().contains("dev")) {
+                    environment = "dev"
+                } else if (task.toLowerCase().contains("stage")) {
+                    environment = "stage"
+                } else if (task.toLowerCase().contains("prod")) {
+                    environment = "prod"
+                }
+            }
+
+            if (environment.isEmpty()) {
+                environment = "dev" // Default to dev
+            }
+
+            println "Environment detected: ${environment}"
+
+            def latestTag = ""
+            def commitRange = "HEAD"
+            def tagInfo = "All commits"
+            def commitCount = 0
+
+            // Get all tags
+            try {
+                def allTagsOutput = new ByteArrayOutputStream()
+                exec {
+                    workingDir projectDir.parentFile.parentFile
+                    commandLine 'git', 'tag', '--sort=-creatordate'
+                    standardOutput = allTagsOutput
+                    ignoreExitValue = true
+                }
+
+                def allTags = allTagsOutput.toString().trim().split('\n')
+
+                // Filter tags based on environment
+                for (tag in allTags) {
+                    if (tag.isEmpty()) continue
+
+                    if (environment == "dev" && tag.contains("-dev")) {
+                        latestTag = tag
+                        break
+                    } else if (environment == "stage" && tag.contains("-stage")) {
+                        latestTag = tag
+                        break
+                    } else if (environment == "prod" && !tag.contains("-dev") && !tag.contains("-stage")) {
+                        latestTag = tag
+                        break
+                    }
+                }
+
+                if (!latestTag.isEmpty()) {
+                    println "Latest tag for ${environment}: ${latestTag}"
+                }
+            } catch (Exception e) {
+                // No tags found, use all commits
+                println "No tags found or error getting tags: ${e.message}"
+            }
+
+            if (!latestTag.isEmpty()) {
+                println "Latest tag: ${latestTag}"
+                commitRange = "${latestTag}..HEAD"
+                tagInfo = "Changes since ${latestTag}"
+            } else {
+                println "No tags found. Using all commits."
+            }
+
+            // Count commits
+            def countOutput = new ByteArrayOutputStream()
+            exec {
+                workingDir projectDir.parentFile.parentFile
+                commandLine 'git', 'rev-list', '--count', commitRange
+                standardOutput = countOutput
+            }
+            commitCount = countOutput.toString().trim().toInteger()
+
+            if (commitCount == 0) {
+                releaseNotesFile.text = "No new changes since last release."
+                return
+            }
+
+            // Get version from package.json
+            def packageJson = new File(projectDir.parentFile.parentFile, "package.json")
+            def version = "Unknown"
+            if (packageJson.exists()) {
+                def jsonContent = packageJson.text
+                def versionMatcher = jsonContent =~ /"version":\s*"([^"]+)"/
+                if (versionMatcher.find()) {
+                    version = versionMatcher.group(1)
+                }
+            }
+
+            // Get commit messages
+            def commitsOutput = new ByteArrayOutputStream()
+            exec {
+                workingDir projectDir.parentFile.parentFile
+                commandLine 'git', 'log', commitRange, '--pretty=format:- %s', '--reverse'
+                standardOutput = commitsOutput
+            }
+
+            // Generate release notes
+            releaseNotesFile.text = """Version: ${version}
+Date: ${new Date().format('yyyy-MM-dd HH:mm')}
+${tagInfo}
+
+What's New:
+${commitsOutput.toString()}
+
+Total commits: ${commitCount}
+
+Generated with Sara Release Notes Generator
+"""
+
+            println "✅ Release notes generated successfully!"
+        } catch (Exception e) {
+            println "⚠️  Warning: Could not generate release notes automatically: ${e.message}"
+            println "Using default release notes..."
+
+            // Fallback to default release notes
+            releaseNotesFile.text = """New build uploaded via Firebase App Distribution
+
+Generated: ${new Date().format('yyyy-MM-dd HH:mm')}
+"""
+        }
+    }
+}
+
+// Make distribution tasks depend on release notes generation
+tasks.matching { it.name.startsWith('appDistributionUpload') }.all {
+    dependsOn generateReleaseNotes
+}

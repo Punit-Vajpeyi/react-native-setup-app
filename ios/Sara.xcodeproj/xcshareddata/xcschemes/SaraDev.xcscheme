@@ -10,7 +10,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "# Copy production environment file and Firebase config&#10;cp &quot;${PROJECT_DIR}/../.env.production&quot; &quot;${PROJECT_DIR}/../.env&quot;&#10;cp &quot;${PROJECT_DIR}/Firebase/GoogleService-Info-prod.plist&quot; &quot;${PROJECT_DIR}/GoogleService-Info.plist&quot;&#10;">
+               scriptText = "# Copy development environment file and Firebase config&#10;cp &quot;${PROJECT_DIR}/../.env.development&quot; &quot;${PROJECT_DIR}/../.env&quot;&#10;cp &quot;${PROJECT_DIR}/Firebase/GoogleService-Info-dev.plist&quot; &quot;${PROJECT_DIR}/GoogleService-Info.plist&quot;&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
@@ -32,9 +32,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "Sara.app"
-               BlueprintName = "Sara"
+               BlueprintIdentifier = "05E69FF72EB7111A00B606EF"
+               BuildableName = "Sara Dev.app"
+               BlueprintName = "Sara Dev"
                ReferencedContainer = "container:Sara.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -73,7 +73,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "# Copy production environment file and Firebase config&#10;cp &quot;${PROJECT_DIR}/../.env.production&quot; &quot;${PROJECT_DIR}/../.env&quot;&#10;cp &quot;${PROJECT_DIR}/Firebase/GoogleService-Info-prod.plist&quot; &quot;${PROJECT_DIR}/GoogleService-Info.plist&quot;&#10;">
+               scriptText = "# Copy development environment file and Firebase config&#10;cp &quot;${PROJECT_DIR}/../.env.development&quot; &quot;${PROJECT_DIR}/../.env&quot;&#10;cp &quot;${PROJECT_DIR}/Firebase/GoogleService-Info-dev.plist&quot; &quot;${PROJECT_DIR}/GoogleService-Info.plist&quot;&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
@@ -125,7 +125,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "# Copy production environment file and Firebase config&#10;cp &quot;${PROJECT_DIR}/../.env.production&quot; &quot;${PROJECT_DIR}/../.env&quot;&#10;cp &quot;${PROJECT_DIR}/Firebase/GoogleService-Info-prod.plist&quot; &quot;${PROJECT_DIR}/GoogleService-Info.plist&quot;&#10;">
+               scriptText = "# Copy development environment file and Firebase config&#10;cp &quot;${PROJECT_DIR}/../.env.development&quot; &quot;${PROJECT_DIR}/../.env&quot;&#10;cp &quot;${PROJECT_DIR}/Firebase/GoogleService-Info-dev.plist&quot; &quot;${PROJECT_DIR}/GoogleService-Info.plist&quot;&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"

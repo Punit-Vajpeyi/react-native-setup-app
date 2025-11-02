@@ -197,10 +197,9 @@ yarn android:prod:release       # Build Prod release APK
 
 **iOS**
 ```bash
-cd ios
-bundle exec fastlane dev        # Build Dev IPA
-bundle exec fastlane stage      # Build Stage IPA
-bundle exec fastlane prod       # Build Prod IPA
+yarn ios:dev:distribute         # Build & distribute Dev IPA
+yarn ios:stage:distribute       # Build & distribute Stage IPA
+yarn ios:prod:distribute        # Build & distribute Prod IPA
 ```
 
 ---

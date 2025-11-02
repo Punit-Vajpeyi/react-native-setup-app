@@ -84,13 +84,18 @@ platform :ios do
     rescue => ex
       UI.warning("⚠️  Could not generate release notes automatically: #{ex.message}")
       # Fallback to default message
-      return "New build uploaded via Fastlane\n\nGenerated: #{Time.now.strftime('%Y-%m-%d %H:%M')}"
+      fallback_notes = "New build uploaded via Fastlane\n\nGenerated: #{Time.now.strftime('%Y-%m-%d %H:%M')}"
+
+      # Write fallback notes to file
+      release_notes_path = File.join(Dir.pwd, "release-notes.txt")
+      File.write(release_notes_path, fallback_notes)
+
+      return fallback_notes
     end
   end
 
   desc "Build and distribute Dev version to Firebase App Distribution"
   lane :dev do
-    # TODO: Replace with your actual Firebase App ID for dev
     firebase_app_id_dev = "1:368956526793:ios:3abacbefefab06bfaf7d18"
 
     # Increment build number
@@ -103,30 +108,56 @@ platform :ios do
     )
 
     # Generate release notes
-    generate_release_notes("dev")
+    release_notes = generate_release_notes("dev")
 
-    build_app(
+    # Archive the app (skip IPA packaging)
+    gym(
       workspace: "Sara.xcworkspace",
       scheme: "SaraDev",
-      export_method: "development",
-      output_directory: "./build",
-      output_name: "Sara-Dev.ipa",
-      export_options: {
-        compileBitcode: false
-      }
+      configuration: "Release",
+      skip_package_ipa: true,
+      skip_archive: false,
+      xcargs: "-allowProvisioningUpdates"
     )
+
+    # Get the archive path
+    archive_path = lane_context[SharedValues::XCODEBUILD_ARCHIVE]
+
+    # Manually create IPA from archive
+    output_path = File.join(Dir.pwd, "build")
+    FileUtils.mkdir_p(output_path)
+
+    ipa_path = File.join(output_path, "Sara-Dev.ipa")
+
+    # Create Payload directory
+    payload_dir = File.join(output_path, "Payload")
+    FileUtils.rm_rf(payload_dir) if File.exist?(payload_dir)
+    FileUtils.mkdir_p(payload_dir)
+
+    # Copy .app to Payload directory
+    app_path = File.join(archive_path, "Products", "Applications", "Sara Dev.app")
+    FileUtils.cp_r(app_path, payload_dir)
+
+    # Create IPA (which is just a zip file)
+    Dir.chdir(output_path) do
+      sh("zip -r Sara-Dev.ipa Payload")
+    end
+
+    # Clean up Payload directory
+    FileUtils.rm_rf(payload_dir)
+
+    UI.success("✅ Successfully created IPA at: #{ipa_path}")
 
     firebase_app_distribution(
       app: firebase_app_id_dev,
-      ipa_path: "./build/Sara-Dev.ipa",
+      ipa_path: ipa_path,
       groups: "wemotive",
-      release_notes_file: "release-notes.txt"
+      release_notes: release_notes
     )
   end
 
   desc "Build and distribute Stage version to Firebase App Distribution"
   lane :stage do
-    # TODO: Replace with your actual Firebase App ID for stage
     firebase_app_id_stage = "1:368956526793:ios:5760568fa7a51bbcaf7d18"
 
     # Increment build number
@@ -139,30 +170,56 @@ platform :ios do
     )
 
     # Generate release notes
-    generate_release_notes("stage")
+    release_notes = generate_release_notes("stage")
 
-    build_app(
+    # Archive the app (skip IPA packaging)
+    gym(
       workspace: "Sara.xcworkspace",
       scheme: "SaraStage",
-      export_method: "development",
-      output_directory: "./build",
-      output_name: "Sara-Stage.ipa",
-      export_options: {
-        compileBitcode: false
-      }
+      configuration: "Release",
+      skip_package_ipa: true,
+      skip_archive: false,
+      xcargs: "-allowProvisioningUpdates"
     )
+
+    # Get the archive path
+    archive_path = lane_context[SharedValues::XCODEBUILD_ARCHIVE]
+
+    # Manually create IPA from archive
+    output_path = File.join(Dir.pwd, "build")
+    FileUtils.mkdir_p(output_path)
+
+    ipa_path = File.join(output_path, "Sara-Stage.ipa")
+
+    # Create Payload directory
+    payload_dir = File.join(output_path, "Payload")
+    FileUtils.rm_rf(payload_dir) if File.exist?(payload_dir)
+    FileUtils.mkdir_p(payload_dir)
+
+    # Copy .app to Payload directory
+    app_path = File.join(archive_path, "Products", "Applications", "Sara Stage.app")
+    FileUtils.cp_r(app_path, payload_dir)
+
+    # Create IPA (which is just a zip file)
+    Dir.chdir(output_path) do
+      sh("zip -r Sara-Stage.ipa Payload")
+    end
+
+    # Clean up Payload directory
+    FileUtils.rm_rf(payload_dir)
+
+    UI.success("✅ Successfully created IPA at: #{ipa_path}")
 
     firebase_app_distribution(
       app: firebase_app_id_stage,
-      ipa_path: "./build/Sara-Stage.ipa",
+      ipa_path: ipa_path,
       groups: "wemotive",
-      release_notes_file: "release-notes.txt"
+      release_notes: release_notes
     )
   end
 
   desc "Build and distribute Prod version to Firebase App Distribution"
   lane :prod do
-    # TODO: Replace with your actual Firebase App ID for prod
     firebase_app_id_prod = "1:368956526793:ios:1901b22d67210283af7d18"
 
     # Increment build number
@@ -175,24 +232,51 @@ platform :ios do
     )
 
     # Generate release notes
-    generate_release_notes("prod")
+    release_notes = generate_release_notes("prod")
 
-    build_app(
+    # Archive the app (skip IPA packaging)
+    gym(
       workspace: "Sara.xcworkspace",
       scheme: "Sara",
-      export_method: "development",
-      output_directory: "./build",
-      output_name: "Sara-Prod.ipa",
-      export_options: {
-        compileBitcode: false
-      }
+      configuration: "Release",
+      skip_package_ipa: true,
+      skip_archive: false,
+      xcargs: "-allowProvisioningUpdates"
     )
+
+    # Get the archive path
+    archive_path = lane_context[SharedValues::XCODEBUILD_ARCHIVE]
+
+    # Manually create IPA from archive
+    output_path = File.join(Dir.pwd, "build")
+    FileUtils.mkdir_p(output_path)
+
+    ipa_path = File.join(output_path, "Sara-Prod.ipa")
+
+    # Create Payload directory
+    payload_dir = File.join(output_path, "Payload")
+    FileUtils.rm_rf(payload_dir) if File.exist?(payload_dir)
+    FileUtils.mkdir_p(payload_dir)
+
+    # Copy .app to Payload directory
+    app_path = File.join(archive_path, "Products", "Applications", "Sara.app")
+    FileUtils.cp_r(app_path, payload_dir)
+
+    # Create IPA (which is just a zip file)
+    Dir.chdir(output_path) do
+      sh("zip -r Sara-Prod.ipa Payload")
+    end
+
+    # Clean up Payload directory
+    FileUtils.rm_rf(payload_dir)
+
+    UI.success("✅ Successfully created IPA at: #{ipa_path}")
 
     firebase_app_distribution(
       app: firebase_app_id_prod,
-      ipa_path: "./build/Sara-Prod.ipa",
+      ipa_path: ipa_path,
       groups: "wemotive",
-      release_notes_file: "release-notes.txt"
+      release_notes: release_notes
     )
   end
 end

@@ -8,12 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		05E69FFA2EB7111A00B606EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
-		05E69FFC2EB7111A00B606EF /* libPods-Sara.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-Sara.a */; };
 		05E69FFE2EB7111A00B606EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		05E69FFF2EB7111A00B606EF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		05E6A0002EB7111A00B606EF /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		05E6A00C2EB7112200B606EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
-		05E6A00E2EB7112200B606EF /* libPods-Sara.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-Sara.a */; };
 		05E6A0102EB7112200B606EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		05E6A0112EB7112200B606EF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		05E6A0122EB7112200B606EF /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
@@ -22,22 +20,29 @@
 		3505930384DE605B504462ED /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		BA397B101208EEDA60120A27 /* libPods-Sara Dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BD8E4C6C7ED8BA885BA7E11 /* libPods-Sara Dev.a */; };
+		BADFA4395ADF1F03F23C14F2 /* libPods-Sara Stage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD3204FE4A3BD381A5F956FA /* libPods-Sara Stage.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		05E6A0072EB7111A00B606EF /* Sara Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sara Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		05E6A0192EB7112200B606EF /* Sara Stage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sara Stage.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		08D54D51C70CC3A3448C4434 /* Pods-Sara Stage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sara Stage.debug.xcconfig"; path = "Target Support Files/Pods-Sara Stage/Pods-Sara Stage.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Sara.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sara.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Sara/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Sara/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* Info-Dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Info-Dev.plist"; path = "Sara/Info-Dev.plist"; sourceTree = "<group>"; };
-		13B07FB91A68108700A75B9A /* Info-Stage.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Info-Stage.plist"; path = "Sara/Info-Stage.plist"; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = Sara/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		13B07FB91A68108700A75B9A /* Info-Stage.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Info-Stage.plist"; path = "Sara/Info-Stage.plist"; sourceTree = "<group>"; };
+		23A7449E11A3252F3C8B4745 /* Pods-Sara Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sara Dev.debug.xcconfig"; path = "Target Support Files/Pods-Sara Dev/Pods-Sara Dev.debug.xcconfig"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-Sara.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sara.debug.xcconfig"; path = "Target Support Files/Pods-Sara/Pods-Sara.debug.xcconfig"; sourceTree = "<group>"; };
+		3BD8E4C6C7ED8BA885BA7E11 /* libPods-Sara Dev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sara Dev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5709B34CF0A7D63546082F79 /* Pods-Sara.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sara.release.xcconfig"; path = "Target Support Files/Pods-Sara/Pods-Sara.release.xcconfig"; sourceTree = "<group>"; };
-		5DCACB8F33CDC322A6C60F78 /* libPods-Sara.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sara.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		74BD0BE276C029646F5B4870 /* Pods-Sara Stage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sara Stage.release.xcconfig"; path = "Target Support Files/Pods-Sara Stage/Pods-Sara Stage.release.xcconfig"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Sara/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Sara/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A5D260B620585237C72854D9 /* Pods-Sara Dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sara Dev.release.xcconfig"; path = "Target Support Files/Pods-Sara Dev/Pods-Sara Dev.release.xcconfig"; sourceTree = "<group>"; };
+		AD3204FE4A3BD381A5F956FA /* libPods-Sara Stage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sara Stage.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -46,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05E69FFC2EB7111A00B606EF /* libPods-Sara.a in Frameworks */,
+				BA397B101208EEDA60120A27 /* libPods-Sara Dev.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05E6A00E2EB7112200B606EF /* libPods-Sara.a in Frameworks */,
+				BADFA4395ADF1F03F23C14F2 /* libPods-Sara Stage.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,7 +92,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DCACB8F33CDC322A6C60F78 /* libPods-Sara.a */,
+				3BD8E4C6C7ED8BA885BA7E11 /* libPods-Sara Dev.a */,
+				AD3204FE4A3BD381A5F956FA /* libPods-Sara Stage.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -128,6 +134,10 @@
 			children = (
 				3B4392A12AC88292D35C810B /* Pods-Sara.debug.xcconfig */,
 				5709B34CF0A7D63546082F79 /* Pods-Sara.release.xcconfig */,
+				23A7449E11A3252F3C8B4745 /* Pods-Sara Dev.debug.xcconfig */,
+				A5D260B620585237C72854D9 /* Pods-Sara Dev.release.xcconfig */,
+				08D54D51C70CC3A3448C4434 /* Pods-Sara Stage.debug.xcconfig */,
+				74BD0BE276C029646F5B4870 /* Pods-Sara Stage.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -289,13 +299,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Sara/Pods-Sara-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Sara/Pods-Sara-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -317,7 +323,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Sara-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Sara Dev-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -346,19 +352,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Sara/Pods-Sara-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sara Dev/Pods-Sara Dev-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Sara/Pods-Sara-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sara Dev/Pods-Sara Dev-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sara/Pods-Sara-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sara Dev/Pods-Sara Dev-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		05E6A0032EB7111A00B606EF /* [CP] Copy Pods Resources */ = {
@@ -367,19 +369,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Sara/Pods-Sara-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sara Dev/Pods-Sara Dev-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Sara/Pods-Sara-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sara Dev/Pods-Sara Dev-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sara/Pods-Sara-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sara Dev/Pods-Sara Dev-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		05E6A00A2EB7112200B606EF /* [CP] Check Pods Manifest.lock */ = {
@@ -397,7 +395,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Sara-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Sara Stage-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -426,19 +424,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Sara/Pods-Sara-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sara Stage/Pods-Sara Stage-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Sara/Pods-Sara-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sara Stage/Pods-Sara Stage-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sara/Pods-Sara-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sara Stage/Pods-Sara Stage-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		05E6A0152EB7112200B606EF /* [CP] Copy Pods Resources */ = {
@@ -447,19 +441,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Sara/Pods-Sara-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sara Stage/Pods-Sara Stage-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Sara/Pods-Sara-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sara Stage/Pods-Sara Stage-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sara/Pods-Sara-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sara Stage/Pods-Sara Stage-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
@@ -492,13 +482,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Sara/Pods-Sara-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Sara/Pods-Sara-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -537,21 +523,23 @@
 /* Begin XCBuildConfiguration section */
 		05E6A0052EB7111A00B606EF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-Sara.debug.xcconfig */;
+			baseConfigurationReference = 23A7449E11A3252F3C8B4745 /* Pods-Sara Dev.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 9YK25879JK;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = Sara/Info-Dev.plist;
+				INFOPLIST_FILE = "Sara/Info-Dev.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Sara Dev";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -567,20 +555,22 @@
 		};
 		05E6A0062EB7111A00B606EF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-Sara.release.xcconfig */;
+			baseConfigurationReference = A5D260B620585237C72854D9 /* Pods-Sara Dev.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 9YK25879JK;
-				INFOPLIST_FILE = Sara/Info-Dev.plist;
+				INFOPLIST_FILE = "Sara/Info-Dev.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Sara Dev";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -595,21 +585,23 @@
 		};
 		05E6A0172EB7112200B606EF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-Sara.debug.xcconfig */;
+			baseConfigurationReference = 08D54D51C70CC3A3448C4434 /* Pods-Sara Stage.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 9YK25879JK;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = Sara/Info-Stage.plist;
+				INFOPLIST_FILE = "Sara/Info-Stage.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Sara Stage";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -625,20 +617,22 @@
 		};
 		05E6A0182EB7112200B606EF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-Sara.release.xcconfig */;
+			baseConfigurationReference = 74BD0BE276C029646F5B4870 /* Pods-Sara Stage.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 9YK25879JK;
-				INFOPLIST_FILE = Sara/Info-Stage.plist;
+				INFOPLIST_FILE = "Sara/Info-Stage.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Sara Stage";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -657,7 +651,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 9YK25879JK;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Sara/Info.plist;
@@ -667,7 +663,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -687,7 +683,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 9YK25879JK;
 				INFOPLIST_FILE = Sara/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Sara;
@@ -696,7 +694,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

@@ -17,7 +17,7 @@ def getVersionName = {
     if (versionPropsFile.canRead()) {
         def Properties versionProps = new Properties()
         versionProps.load(new FileInputStream(versionPropsFile))
-        return versionProps['VERSION_NAME']
+        return versionProps['VERSION_NAME'].toString()
     } else {
         return "1.0.0"
     }
@@ -45,7 +45,7 @@ task incrementVersion {
 
         def Properties versionProps = new Properties()
         versionProps['VERSION_CODE'] = newVersionCode.toString()
-        versionProps['VERSION_NAME'] = newVersionName
+        versionProps['VERSION_NAME'] = newVersionName.toString()
         versionProps.store(versionPropsFile.newWriter(), null)
 
         println "✅ Version incremented: ${currentVersionName} (${currentVersionCode}) -> ${newVersionName} (${newVersionCode})"
